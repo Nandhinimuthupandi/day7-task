@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function myFunc(){
+            var xmlHTTP = new XMLhttpRequest();
+            xmlHTTP.open("GET","https://restcountries.com/v3.1/all",true);
+            xmlHTTP.send();
+
+            xmlHTTP.onreadystatechange = function(){
+                const jsonData = JSON.parse(xmlHTTP.responseText);
+
+                // Get all the countries from Asia continent /region using Filter function
+
+                var asianCountries = jsonData.filter((country)=> country.region === "Asia" || country.subregion === "Asia");
+                console.log(asianCountries);
+
+                // Get all the countries with a population of less than 2 lakhs using Filter function
+
+                var population = jsonData.filter((country)=>country.population<200000);
+                console.log(population)
+
+                //Print the following details name, capital, flag using forEach function
+
+                jsonData.forEach((country) => {
+                    console.log("name:",country.name.common);
+                    console.log("capital:",country.capital);
+                    console.log("flag:",country.flags.svg)
+                    
+                });
+
+                //Print the total population of countries using reduce function
+
+                var totalPopulation = jsonData.reduce(
+                    (acc,country)=>acc+country.population,
+                    0
+                )
+                console.log(totalPopulation);
+
+                //Print the country which uses US Dollars as currency
+
+                var countryWithUSD = jsonData.find((country) => country.currencies.includes("USD"));
+                console.log(countryWithUSD);  
+              }
+        }
+        myFunc();
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
